@@ -155,7 +155,9 @@ static PyObject *py_zstd_compress_mt(PyObject* self, PyObject *args)
             Py_CLEAR(result);
             return NULL;
         }
-        Py_SET_SIZE(result, cSize);
+        if (cSize < (size_t)dest_size) {
+            _PyBytes_Resize(&result, (Py_ssize_t)cSize);
+        }
     }
     return result;
 }
@@ -284,7 +286,9 @@ static PyObject *py_zstd_compress_mt2(PyObject* self, PyObject *args)
             Py_CLEAR(result);
             return NULL;
         }
-        Py_SET_SIZE(result, cSize);
+        if (cSize < (size_t)dest_size) {
+            _PyBytes_Resize(&result, (Py_ssize_t)cSize);
+        }
     }
     return result;
 }
@@ -381,14 +385,11 @@ static PyObject *py_zstd_uncompress(PyObject* self, PyObject *args)
             	PyErr_Format(ZstdError, "Decompression error: %s", errStr);
             	error = 1;
 //			}
-        } else if (cSize != dest_size) {
-		//if (sizeof(uint64_t)==sizeof(unsigned long)) {
-			PyErr_Format(ZstdError, "Decompression error: length mismatch -> decomp %lu != %lu [header]", (unsigned long)cSize,  (unsigned long)dest_size);
-		//} 
-		//else if (sizeof(uint64_t)==sizeof(unsigned long long))
-		//{ //unsigned long long?! x86?!
-                //        PyErr_Format(ZstdError, "Decompression error: length mismatch -> decomp %llu != %llu [header]", (uint64_t)cSize,  (uint64_t)dest_size);
-		//}
+        } else if (cSize != (size_t)dest_size) {
+            /* Using %llu is safe for Python 3.3+ on all platforms (Win/Linux/32/64) 
+               as it is handled by Python's own internal formatter. */
+            PyErr_Format(ZstdError, "Decompression error: length mismatch -> decomp %llu != %llu [header]", 
+                         (unsigned long long)cSize, (unsigned long long)dest_size);
             error = 1;
         }
     } else {
@@ -401,7 +402,9 @@ static PyObject *py_zstd_uncompress(PyObject* self, PyObject *args)
     }
 
 	if (!error) {
-    	Py_SET_SIZE(result, cSize);
+    	if (cSize < dest_size) {
+            _PyBytes_Resize(&result, (Py_ssize_t)cSize);
+        }
 	}
 
     return result;
