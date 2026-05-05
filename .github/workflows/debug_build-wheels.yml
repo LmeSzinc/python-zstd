@@ -90,7 +90,7 @@ jobs:
             mirror: http://azure.archive.ubuntu.com/ubuntu
             version: 1.5.6.3
             pyver: "3.8"
-            getpipurl: https://bootstrap.pypa.io/pip/get-pip.py
+            getpipurl: https://bootstrap.pypa.io/pip/3.8/get-pip.py
             pypkg: python3.8
             pypkgadd: python3.8-distutils
             pyengine_tag: cp38-cp38
@@ -104,7 +104,7 @@ jobs:
             mirror: http://azure.archive.ubuntu.com/ubuntu
             version: 1.5.6.3
             pyver: "3.9"
-            getpipurl: https://bootstrap.pypa.io/pip/get-pip.py
+            getpipurl: https://bootstrap.pypa.io/pip/3.9/get-pip.py
             pypkg: python3.9
             pypkgadd: python3.9-distutils
             pyengine_tag: cp39-cp39
@@ -215,7 +215,7 @@ jobs:
             pypkg: python3.8
             pypkgadd: python3.8-distutils
             pyver: "3.8"
-            getpipurl: https://bootstrap.pypa.io/pip/get-pip.py
+            getpipurl: https://bootstrap.pypa.io/pip/3.8/get-pip.py
             pyengine_tag: cp38-cp38
             libc_tag: manylinux_2_17
           - name: Ubuntu 24+16 amd64 CPython3.9
@@ -229,7 +229,7 @@ jobs:
             pypkg: python3.9
             pypkgadd: python3.9-distutils
             pyver: "3.9"
-            getpipurl: https://bootstrap.pypa.io/pip/get-pip.py
+            getpipurl: https://bootstrap.pypa.io/pip/3.9/get-pip.py
             pyengine_tag: cp39-cp39
             libc_tag: manylinux_2_17
           - name: Ubuntu 24+20 amd64 CPython3.10
