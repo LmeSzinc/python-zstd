@@ -836,6 +836,7 @@ static struct PyModuleDef moduledef = {
         myextension_clear,
 //        NULL
         myextension_free,
+};
 #endif
 
 #if PY_MAJOR_VERSION >= 3
